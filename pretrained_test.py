@@ -1,4 +1,3 @@
-from models.CNN import CNNModel
 from pretrained_test_dataset import TestDataset
 
 import os
