@@ -78,7 +78,6 @@ with torch.no_grad():
 
         pids.append(pid)
         predictions.append(sort_predictions(avg_prediction, index_list))
-        print(predictions[-1])
 
 # save sorted predictions in csv
 sorted_predictions = sorted(zip(pids, predictions))
