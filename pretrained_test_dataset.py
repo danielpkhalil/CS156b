@@ -4,39 +4,29 @@ from torchvision.transforms import ToTensor, Resize, Compose, Lambda
 from torch.utils.data import Dataset, DataLoader
 import torchxrayvision as xrv
 import skimage
+import pandas as pd
 
 class TestDataset(Dataset):
-    def __init__(self, root_dir, transform=None):
+    def __init__(self, csv_file, root_dir, transform=None):
+        self.annotations = pd.read_csv(csv_file)
         self.root_dir = root_dir
         self.transform = transform
-        self.patient_dirs = [d for d in os.listdir(self.root_dir) if os.path.isdir(os.path.join(self.root_dir, d))]
 
     def __len__(self):
-        return len(self.patient_dirs)
+        return len(self.annotations)
 
     def __getitem__(self, index):
-        patient_dir = self.patient_dirs[index]
-        patient_path = os.path.join(self.root_dir, patient_dir)
+        img_path = os.path.join(self.root_dir, self.annotations.iloc[index, 1])
 
-        image_paths = []
-        for dirpath, _, filenames in os.walk(patient_path):
-            for filename in filenames:
-                if filename.endswith('.jpg'):
-                    image_paths.append(os.path.join(dirpath, filename))
+        #image = Image.open(img_path)
+        image = skimage.io.imread(img_path, as_gray=False)
+        image = xrv.datasets.normalize(image, 255)
+        if len(image.shape) == 3:
+            image = image.mean(2)
+        image = image[None, ...]
 
-        images = []
-        for img_path in image_paths:
-            #image = Image.open(img_path)
-            image = skimage.io.imread(img_path, as_gray=False)
+        if self.transform:
+            image = self.transform(image)
 
-            image = xrv.datasets.normalize(image, 255)
-            if len(image.shape) == 3:
-                image = image.mean(2)
-            image = image[None, ...]
-
-            if self.transform:
-                image = self.transform(image)
-            images.append(image)
-
-        pid = int(patient_dir[3:])
-        return pid, images
+        id = int(self.annotations.iloc[index, 0])
+        return id, image
