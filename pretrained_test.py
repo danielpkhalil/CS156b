@@ -64,7 +64,6 @@ def sort_predictions(pred, index_list):
 ids = []
 predictions = []
 
-c = 0
 with torch.no_grad():
     for id, image in test_loader:
         output = model(image)
@@ -72,9 +71,6 @@ with torch.no_grad():
         prediction = output.squeeze().tolist()  # remove batch dimension
         ids.append(id)
         predictions.append(sort_predictions(prediction, index_list))
-        c += 1
-        if c > 4:
-            break
 
 # save sorted predictions in csv
 sorted_predictions = sorted(zip(ids, predictions))
