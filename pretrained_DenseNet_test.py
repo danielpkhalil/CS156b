@@ -27,6 +27,8 @@ test_dataset = TestDataset(csv_file=args.csv_path, root_dir=args.data_path, tran
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 model = xrv.models.DenseNet(weights=args.checkpoint)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
 
 pathologies = ['No Finding', 'Enlarged Cardiomediastinum', 'Cardiomegaly', 'Lung Opacity', 'Pneumonia', 'Pleural Effusion', 'Pleural Other', 'Fracture', 'Support Devices']
 model_output_pathologies = {
@@ -66,7 +68,7 @@ predictions = []
 
 with torch.no_grad():
     for id, image in test_loader:
-        output = model(image)
+        output = model(image.to(device))
         # raw score for each of the 9 labels
         prediction = output.squeeze().tolist()  # remove batch dimension
         ids.append(id)
