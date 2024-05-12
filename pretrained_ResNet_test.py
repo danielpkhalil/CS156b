@@ -27,17 +27,8 @@ test_dataset = TestDataset(csv_file=args.csv_path, root_dir=args.data_path, tran
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 model = xrv.models.ResNet(weights=args.checkpoint)
-
-# model_urls['resnet50-res512-all'] = {
-#     "description": 'This model was trained on the datasets pc-nih-rsna-siim-vin at a 512x512 resolution.',
-#     "weights_url": 'https://github.com/mlmed/torchxrayvision/releases/download/v1/pc-nih-rsna-siim-vin-resnet50-test512-e400-state.pt',
-#     "labels": ['Atelectasis', 'Consolidation', 'Infiltration', 'Pneumothorax', 
-#                'Edema', 'Emphysema', 'Fibrosis', 'Effusion', 'Pneumonia', 
-#                'Pleural_Thickening', 'Cardiomegaly', 'Nodule', 'Mass', 'Hernia', 
-#                'Lung Lesion', 'Fracture', 'Lung Opacity', 'Enlarged Cardiomediastinum'],
-#     "op_threshs": [0.51570356, 0.50444704, 0.53787947, 0.50723547, 0.5025118, 0.5035252, 0.5038076, 0.51862943, 0.5078151, 0.50724894, 0.5056339, 0.510706, 0.5053923, 0.5020846, np.nan, 0.5080557, 0.5138526, np.nan],
-#     "ppv80_thres": [0.690908, 0.720028, 0.7303882, 0.7235838, 0.6787441, 0.7304924, 0.73105824, 0.6839408, 0.7241559, 0.7219969, 0.6346738, 0.72764945, 0.7285066, 0.5735704, np.nan, 0.69684714, 0.7135549, np.nan]
-# }
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
 
 pathologies = ['No Finding', 'Enlarged Cardiomediastinum', 'Cardiomegaly', 'Lung Opacity', 'Pneumonia', 'Pleural Effusion', 'Pleural Other', 'Fracture', 'Support Devices']
 model_output_pathologies = {
@@ -78,7 +69,7 @@ predictions = []
 
 with torch.no_grad():
     for id, image in test_loader:
-        output = model(image)
+        output = model(image.to(device))
         # raw score for each of the 9 labels
         prediction = output.squeeze().tolist()  # remove batch dimension
         ids.append(id)
