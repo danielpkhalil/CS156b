@@ -38,6 +38,7 @@ model_output_pathologies = {
     'Pneumothorax': [3],
     'Edema': [4],
     'Pleural Effusion': [7],
+    'Pleural Other': [9],
     'Pneumonia': [8],
     'Cardiomegaly': [10],
     'Lung Lesion': [14],
