@@ -15,15 +15,28 @@ class TestDataset(Dataset):
     def __len__(self):
         return len(self.annotations)
 
+    # def __getitem__(self, index):
+    #     img_path = os.path.join(self.root_dir, self.annotations.iloc[index, 1])
+    #
+    #     #image = Image.open(img_path)
+    #     image = skimage.io.imread(img_path, as_gray=False)
+    #     image = xrv.datasets.normalize(image, 255)
+    #     if len(image.shape) == 3:
+    #         image = image.mean(2)
+    #     image = image[None, ...]
+    #
+    #     if self.transform:
+    #         image = self.transform(image)
+    #
+    #     id = int(self.annotations.iloc[index, 0])
+    #     return id, image
+
     def __getitem__(self, index):
         img_path = os.path.join(self.root_dir, self.annotations.iloc[index, 1])
 
+
         #image = Image.open(img_path)
-        image = skimage.io.imread(img_path, as_gray=False)
-        image = xrv.datasets.normalize(image, 255)
-        if len(image.shape) == 3:
-            image = image.mean(2)
-        image = image[None, ...]
+        image = xrv.utils.load_image(img_path)
 
         if self.transform:
             image = self.transform(image)

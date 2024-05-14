@@ -7,9 +7,10 @@ from torchvision.transforms import ToTensor
 import os
 
 class TrainDataset(Dataset):
-    def __init__(self, csv_file, root_dir, transform=None):
+    def __init__(self, csv_file, root_dir, specific_idx=None, transform=None):
         self.annotations = pd.read_csv(csv_file)
         self.root_dir = root_dir
+        self.specific_idx = specific_idx
         self.transform = transform
 
     def __len__(self):
@@ -21,6 +22,8 @@ class TrainDataset(Dataset):
         image = Image.open(img_path)
         y_label = torch.tensor(self.annotations.iloc[index, 7:])
         y_label = y_label.float()
+        if self.specific_idx != None:
+            y_label = y_label[self.specific_idx]
 
         if self.transform:
             image = self.transform(image)

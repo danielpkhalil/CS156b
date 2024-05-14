@@ -19,7 +19,7 @@ transform = transforms.Compose([
 ])
 
 # make dataset
-dataset = CustomDataset(csv_file='data/newtrain2023.csv', root_dir='data', transform=transform)
+dataset = TrainDataset(csv_file='data/newtrain2023.csv', root_dir='data', transform=transform)
 
 # use custom dataset for dataloader
 data_loader = DataLoader(dataset, batch_size=4, shuffle=True)
