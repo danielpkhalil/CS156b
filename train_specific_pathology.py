@@ -19,7 +19,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--csv_path", type=str, required=True, help="Path to the test csv")
 parser.add_argument("--data_path", type=str, required=True, help="Path to the test data folder")
-parser.add_argument("--checkpoint", type=str, required=True, help="Model checkpoint name")
+parser.add_argument("--checkpoint", type=str, required=False, help="Model checkpoint name")
 args = parser.parse_args()
 
 def to_rgb(image):
@@ -40,7 +40,7 @@ num_workers = 4
 batch_size = 4
 
 # make dataset
-dataset = TrainDataset(csv_file='data/newtrain2023.csv', root_dir='data', specific_idx=8, transform=transform)
+dataset = TrainDataset(csv_file=args.csv_path, root_dir=args.data_path, specific_idx=8, transform=transform)
 
 # Split the dataset into training and validation sets
 train_size = int(0.8 * len(dataset))  # 80% of the dataset for training
