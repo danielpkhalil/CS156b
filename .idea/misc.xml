@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="Black">
-    <option name="sdkName" value="CS156b" />
-  </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="CS156b" project-jdk-type="Python SDK" />
-</project>
