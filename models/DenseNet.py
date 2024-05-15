@@ -33,7 +33,6 @@ class DenseNet121(pl.LightningModule):
 
     def forward(self, x):
         x = self.base_model(x)
-        x = torch.tanh(x)  # Apply tanh activation to the output
         return x
 
     def training_step(self, batch, batch_idx):
