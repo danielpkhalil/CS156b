@@ -37,7 +37,7 @@ transform = transforms.Compose([
 
 num_epochs = 10
 num_workers = 4
-batch_size = 4
+batch_size = 32
 
 # make dataset
 dataset = TrainDataset(csv_file=args.csv_path, root_dir=args.data_path, specific_idx=8, transform=transform)
