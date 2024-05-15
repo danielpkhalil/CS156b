@@ -46,5 +46,5 @@ checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, filename='DenseNet
 
 # Load a pretrained DenseNet121 model
 model = DenseNet121()
-trainer = pl.Trainer(max_epochs=30, callbacks=[checkpoint_callback], log_every_n_steps=1)
+trainer = pl.Trainer(max_epochs=30, callbacks=[checkpoint_callback])
 trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
