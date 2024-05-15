@@ -12,8 +12,15 @@ from torch.utils.data import random_split
 from models.DenseNet import DenseNet121
 from torchvision.transforms import ColorJitter
 from torchvision.transforms import RandomHorizontalFlip, RandomRotation
+import argparse
 
 # assume we have cleaned data
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--csv_path", type=str, required=True, help="Path to the test csv")
+parser.add_argument("--data_path", type=str, required=True, help="Path to the test data folder")
+parser.add_argument("--checkpoint", type=str, required=True, help="Model checkpoint name")
+args = parser.parse_args()
 
 def to_rgb(image):
     return image.convert('RGB')
@@ -28,6 +35,10 @@ transform = transforms.Compose([
     Lambda(lambda x: x.float()),
 ])
 
+num_epochs = 10
+num_workers = 4
+batch_size = 4
+
 # make dataset
 dataset = TrainDataset(csv_file='data/newtrain2023.csv', root_dir='data', specific_idx=8, transform=transform)
 
@@ -37,8 +48,8 @@ val_size = len(dataset) - train_size  # 20% of the dataset for validation
 train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
 
 # Create data loaders for the training and validation sets
-train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True, num_workers=4)
-val_loader = DataLoader(val_dataset, batch_size=4, shuffle=False, num_workers=4)
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
 current_dir = os.getcwd()
 checkpoint_dir = os.path.join(current_dir, 'checkpoints')
@@ -46,5 +57,9 @@ checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, filename='DenseNet
 
 # Load a pretrained DenseNet121 model
 model = DenseNet121()
-trainer = pl.Trainer(max_epochs=30, callbacks=[checkpoint_callback])
+
+if args.checkpoint is not None:
+    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
+else:
+    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback])
 trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
