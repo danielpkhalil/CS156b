@@ -27,46 +27,44 @@ args = parser.parse_args()
 
 print(torch.cuda.device_count())
 
-if True:
+def to_rgb(image):
+    return image.convert('RGB')
 
-    def to_rgb(image):
-        return image.convert('RGB')
+# Add the custom transformation to your transformations
+transform = transforms.Compose([
+    Resize((224, 224)),  # Resize to 224x224 pixels
+    RandomHorizontalFlip(),  # Randomly flip the image horizontally
+    RandomRotation(10),  # Randomly rotate the image by up to 10 degrees
+    Lambda(to_rgb),  # Convert to RGB
+    ToTensor(),
+    Lambda(lambda x: x.float()),
+])
 
-    # Add the custom transformation to your transformations
-    transform = transforms.Compose([
-        Resize((224, 224)),  # Resize to 224x224 pixels
-        RandomHorizontalFlip(),  # Randomly flip the image horizontally
-        RandomRotation(10),  # Randomly rotate the image by up to 10 degrees
-        Lambda(to_rgb),  # Convert to RGB
-        ToTensor(),
-        Lambda(lambda x: x.float()),
-    ])
+num_epochs = 10
+num_workers = 4
+batch_size = 32
 
-    num_epochs = 10
-    num_workers = 4
-    batch_size = 32
+# make dataset
+dataset = TrainDataset(csv_file=args.csv_path, root_dir=args.data_path, specific_idx=args.pathogen_idx, transform=transform)
 
-    # make dataset
-    dataset = TrainDataset(csv_file=args.csv_path, root_dir=args.data_path, specific_idx=args.pathogen_idx, transform=transform)
+# Split the dataset into training and validation sets
+train_size = int(0.8 * len(dataset))  # 80% of the dataset for training
+val_size = len(dataset) - train_size  # 20% of the dataset for validation
+train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
 
-    # Split the dataset into training and validation sets
-    train_size = int(0.8 * len(dataset))  # 80% of the dataset for training
-    val_size = len(dataset) - train_size  # 20% of the dataset for validation
-    train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
+# Create data loaders for the training and validation sets
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
-    # Create data loaders for the training and validation sets
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+current_dir = os.getcwd()
+checkpoint_dir = os.path.join(current_dir, 'checkpoints')
+checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, filename='DenseNet121-{epoch:02d}-{val_loss:.2f}')
 
-    current_dir = os.getcwd()
-    checkpoint_dir = os.path.join(current_dir, 'checkpoints')
-    checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, filename='DenseNet121-{epoch:02d}-{val_loss:.2f}')
+# Load a pretrained DenseNet121 model
+model = DenseNet121()
 
-    # Load a pretrained DenseNet121 model
-    model = DenseNet121()
-
-    if args.checkpoint is not None:
-        trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
-    else:
-        trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback])
-    trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
+if args.checkpoint is not None:
+    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
+else:
+    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback])
+trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
