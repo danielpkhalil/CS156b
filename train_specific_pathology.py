@@ -26,7 +26,7 @@ args = parser.parse_args()
 
 print(torch.cuda.device_count())
 
-if False:
+if True:
 
     def to_rgb(image):
         return image.convert('RGB')
