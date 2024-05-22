@@ -19,6 +19,16 @@ class TrainDataset(Dataset):
     def __getitem__(self, index):
         img_path = os.path.join(self.root_dir, self.annotations.iloc[index, 2].replace('CheXpert-v1.0/', ''))
 
+        try:
+            # Attempt to open the image
+            image = Image.open(img_path)
+        except (FileNotFoundError, OSError) as e:
+            # If the image path is not found, handle the error gracefully
+            print(f"Error opening image: {img_path}")
+            print(e)
+            # You can return a default image or any other handling mechanism
+            return None, None
+
         #image = read_image(img_path)
         image = Image.open(img_path)
         y_label = torch.tensor(self.annotations.iloc[index, 7:])
