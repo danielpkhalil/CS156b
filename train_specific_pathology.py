@@ -41,7 +41,7 @@ transform = transforms.Compose([
 ])
 
 num_epochs = 1
-num_workers = 8
+num_workers = 4
 num_devices = 8
 batch_size = 32
 
