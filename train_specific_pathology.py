@@ -42,7 +42,7 @@ transform = transforms.Compose([
 
 num_epochs = 1
 num_workers = 4
-num_devices = 8
+num_devices = 4
 batch_size = 32
 
 # make dataset
