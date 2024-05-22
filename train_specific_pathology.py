@@ -40,7 +40,7 @@ transform = transforms.Compose([
     Lambda(lambda x: x.float()),
 ])
 
-num_epochs = 1
+num_epochs = 3
 num_workers = 4
 #num_devices = 4
 batch_size = 32
