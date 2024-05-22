@@ -59,7 +59,13 @@ val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_w
 
 current_dir = os.getcwd()
 checkpoint_dir = os.path.join(current_dir, 'checkpoints')
-checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, filename=str(args.pathogen_idx) + 'DenseNet121-{epoch:02d}-{val_loss:.2f}')
+#checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, filename=str(args.pathogen_idx) + 'DenseNet121-{epoch:02d}-{val_loss:.2f}')
+checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, 
+                                      filename=str(args.pathogen_idx) + 'DenseNet121-{epoch:02d}-{val_loss:.2f}',
+                                      save_top_k=1, 
+                                      monitor='val_loss', 
+                                      mode='min', 
+                                      save_last=True)
 
 # Load a pretrained DenseNet121 model
 model = DenseNet121()
