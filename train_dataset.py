@@ -18,6 +18,11 @@ class TrainDataset(Dataset):
 
     def __getitem__(self, index):
         img_path = os.path.join(self.root_dir, self.annotations.iloc[index, 2])
+        # Check if the image path starts with "CheXpert-v1.0/"
+        if img_path.startswith("CheXpert-v1.0/"):
+            # If it does, remove the "CheXpert-v1.0/" prefix
+            img_path = img_path[len("CheXpert-v1.0/"):]
+
         #image = read_image(img_path)
         image = Image.open(img_path)
         y_label = torch.tensor(self.annotations.iloc[index, 7:])
