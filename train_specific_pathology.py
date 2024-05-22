@@ -42,6 +42,7 @@ transform = transforms.Compose([
 
 num_epochs = 1
 num_workers = 8
+num_devices = 8
 batch_size = 32
 
 # make dataset
@@ -64,7 +65,7 @@ checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir, filename=str(args.
 model = DenseNet121()
 
 if args.checkpoint is not None:
-    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
+    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint, devices=num_devices)
 else:
-    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback])
+    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback], devices=num_devices)
 trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
