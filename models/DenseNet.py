@@ -69,34 +69,35 @@ class DenseNet121(pl.LightningModule):
     def on_train_end(self):
         # Read the logged metrics from the CSV file
         metrics = pd.read_csv(f'{self.logger.log_dir}/metrics.csv')
-
+    
         # Preprocess the data
         epochs = metrics['epoch'].unique()
-        train_loss = metrics['avg_train_loss'].dropna().values
-        val_loss = metrics['avg_val_loss'].dropna().values
-
+        max_epoch = epochs.max()
+        train_loss = metrics['avg_train_loss'].dropna().reindex(range(max_epoch + 1), fill_value=np.nan).tolist()
+        val_loss = metrics['avg_val_loss'].dropna().reindex(range(max_epoch + 1), fill_value=np.nan).tolist()
+    
         # Create a new DataFrame
         data = pd.DataFrame({
             'epoch': epochs,
             'avg_train_loss': train_loss,
             'avg_val_loss': val_loss
         })
-
+    
         # Create a figure and axes
         fig, ax = plt.subplots()
-
+    
         # Plot the average training and validation losses
         ax.plot(data['epoch'], data['avg_train_loss'], label='Avg Train Loss')
         ax.plot(data['epoch'], data['avg_val_loss'], label='Avg Val Loss')
-
+    
         # Set the title and labels
         ax.set_title('Model Loss Across Epochs')
         ax.set_ylabel('Loss')
         ax.set_xlabel('Epoch')
-
+    
         # Add a legend
         ax.legend()
-
+    
         # Save the figure to a file and close it
         fig.savefig(f'{self.logger.log_dir}/loss_plot.png')
         plt.close(fig)
