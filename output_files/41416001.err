@@ -1,0 +1,94 @@
+/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/dataloader.py:558: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(_create_warning_msg(
+/home/apenn2/.local/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/apenn2/.local/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=DenseNet121_Weights.IMAGENET1K_V1`. You can also use `weights=DenseNet121_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/logger_connector/logger_connector.py:75: Starting from v1.9.0, `tensorboardX` has been removed as a dependency of the `pytorch_lightning` package, due to potential conflicts with other packages in the ML ecosystem. For this reason, `logger=True` will use `CSVLogger` as the default logger, unless the `tensorboard` or `tensorboardX` packages are found. Please `pip install lightning[extra]` or one of them to enable TensorBoard support by default
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name       | Type              | Params
+-------------------------------------------------
+0 | base_model | DenseNet          | 7.0 M 
+1 | criterion  | BCEWithLogitsLoss | 0     
+-------------------------------------------------
+7.0 M     Trainable params
+0         Non-trainable params
+7.0 M     Total params
+27.820    Total estimated model params size (MB)
+SLURM auto-requeueing enabled. Setting signal handlers.
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/central/home/apenn2/repo/CS156b/train_dataset.py:23: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  y_label = torch.tensor(self.annotations.iloc[index, 7:])
+/home/apenn2/.local/lib/python3.9/site-packages/torch/autograd/graph.py:744: UserWarning: Plan failed with a cudnnException: CUDNN_BACKEND_EXECUTION_PLAN_DESCRIPTOR: cudnnFinalize Descriptor Failed cudnn_status: CUDNN_STATUS_NOT_SUPPORTED (Triggered internally at ../aten/src/ATen/native/cudnn/Conv_v8.cpp:919.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+Traceback (most recent call last):
+  File "/central/home/apenn2/repo/CS156b/train_specific_pathology.py", line 70, in <module>
+    trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 544, in fit
+    call._call_and_handle_interrupt(
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 44, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 580, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 987, in _run
+    results = self._run_stage()
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1033, in _run_stage
+    self.fit_loop.run()
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 205, in run
+    self.advance()
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 363, in advance
+    self.epoch_loop.run(self._data_fetcher)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 140, in run
+    self.advance(data_fetcher)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 212, in advance
+    batch, _, __ = next(data_fetcher)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 133, in __next__
+    batch = super().__next__()
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 60, in __next__
+    batch = next(self.iterator)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 341, in __next__
+    out = next(self._iterator)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 78, in __next__
+    out[i] = next(self.iterators[i])
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 631, in __next__
+    data = self._next_data()
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1326, in _next_data
+    return self._process_data(data)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1372, in _process_data
+    data.reraise()
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/_utils.py", line 705, in reraise
+    raise exception
+FileNotFoundError: Caught FileNotFoundError in DataLoader worker process 2.
+Original Traceback (most recent call last):
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/_utils/worker.py", line 308, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 49, in fetch
+    data = self.dataset.__getitems__(possibly_batched_index)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/dataset.py", line 419, in __getitems__
+    return [self.dataset[self.indices[idx]] for idx in indices]
+  File "/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/dataset.py", line 419, in <listcomp>
+    return [self.dataset[self.indices[idx]] for idx in indices]
+  File "/central/home/apenn2/repo/CS156b/train_dataset.py", line 22, in __getitem__
+    image = Image.open(img_path)
+  File "/home/apenn2/.local/lib/python3.9/site-packages/PIL/Image.py", line 3277, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/central/groups/CS156b/data/CheXpert-v1.0/train/patient64540/study1/view1_frontal.jpg'
+
