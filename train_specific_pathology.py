@@ -39,6 +39,7 @@ transform = transforms.Compose([
     ToTensor(),
     Lambda(lambda x: x.float()),
 ])
+#zoom? other augmentations
 
 num_epochs = 3
 num_workers = 4
