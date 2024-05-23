@@ -41,10 +41,10 @@ transform = transforms.Compose([
 ])
 #zoom? other augmentations
 
-num_epochs = 15
+num_epochs = 10
 num_workers = 4
 #num_devices = 4
-batch_size = 32
+batch_size = 64
 
 # make dataset
 dataset = TrainDataset(csv_file=args.csv_path, root_dir=args.data_path, specific_idx=args.pathogen_idx, transform=transform)
