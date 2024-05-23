@@ -41,7 +41,7 @@ transform = transforms.Compose([
 ])
 #zoom? other augmentations
 
-num_epochs = 1
+num_epochs = 15
 num_workers = 4
 #num_devices = 4
 batch_size = 32
