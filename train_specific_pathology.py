@@ -75,8 +75,17 @@ checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir,
 # Load a pretrained DenseNet121 model
 model = DenseNet121()
 
+strategy = pl.strategies.DDPStrategy(static_graph = True)
+
 if args.checkpoint is not None:
-    trainer = pl.Trainer(accelerator="gpu", strategy="ddp", max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
+    trainer = pl.Trainer(accelerator="gpu", strategy=strategy, max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
 else:
-    trainer = pl.Trainer(accelerator="gpu", strategy="ddp", max_epochs=num_epochs, callbacks=[checkpoint_callback])
+    trainer = pl.Trainer(accelerator="gpu", strategy=strategy, max_epochs=num_epochs, callbacks=[checkpoint_callback])
+
+print('trainer world size: ', trainer.world_size)
+print('num nodes: ', trainer.num_nodes)
+print('accelerator: ', trainer.accelerator)
+print('ids: ', trainer.device_ids)
+print('train num workers: ', train_loader.num_workers)
+
 trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
