@@ -31,13 +31,16 @@ def to_rgb(image):
     return image.convert('RGB')
 
 # Add the custom transformation to your transformations
+imagenet_mean = [0.485, 0.456, 0.406]
+imagenet_std = [0.229, 0.224, 0.225]
+
 transform = transforms.Compose([
-    Resize((224, 224)),  # Resize to 224x224 pixels
-    RandomHorizontalFlip(),  # Randomly flip the image horizontally
-    RandomRotation(10),  # Randomly rotate the image by up to 10 degrees
-    Lambda(to_rgb),  # Convert to RGB
+    Resize((224, 224)),
+    RandomHorizontalFlip(),
+    RandomRotation(10),
+    Lambda(to_rgb),
     ToTensor(),
-    Lambda(lambda x: x.float()),
+    transforms.Normalize(mean=imagenet_mean, std=imagenet_std),
 ])
 #zoom? other augmentations
 #mse loss
