@@ -74,7 +74,7 @@ checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir,
 model = DenseNet121()
 
 if args.checkpoint is not None:
-    trainer = pl.Trainer(accelerator="gpu", devices=2, strategy="ddp", max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
+    trainer = pl.Trainer(accelerator="gpu", strategy="ddp", max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
 else:
-    trainer = pl.Trainer(accelerator="gpu", devices=2, strategy="ddp", max_epochs=num_epochs, callbacks=[checkpoint_callback])
+    trainer = pl.Trainer(accelerator="gpu", strategy="ddp", max_epochs=num_epochs, callbacks=[checkpoint_callback])
 trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
