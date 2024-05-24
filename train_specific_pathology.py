@@ -42,6 +42,8 @@ transform = transforms.Compose([
 #zoom? other augmentations
 #mse loss
 #AdamW
+#efficientnet?
+#
 
 num_epochs = 10
 num_workers = 4
