@@ -40,6 +40,8 @@ transform = transforms.Compose([
     Lambda(lambda x: x.float()),
 ])
 #zoom? other augmentations
+#mse loss
+#AdamW
 
 num_epochs = 10
 num_workers = 4
