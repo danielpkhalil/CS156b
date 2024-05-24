@@ -25,7 +25,7 @@ class DenseNet121(pl.LightningModule):
         self.base_model.classifier = torch.nn.Linear(num_ftrs, 1)  # Assuming binary classification
 
         # Define your loss function here
-        self.criterion = torch.nn.BCEWithLogitsLoss()
+        self.criterion = torch.nn.MSELoss()
 
         # Initialize lists to store the outputs of each training and validation step
         self.train_outputs = []
@@ -63,7 +63,7 @@ class DenseNet121(pl.LightningModule):
 
     def configure_optimizers(self):
         # Define your optimizer
-        optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)  # Change learning rate here
+        optimizer = torch.optim.AdamW(self.parameters(), lr=0.005)  # Change learning rate here
         return optimizer
 
     # def on_train_end(self):
