@@ -43,7 +43,7 @@ transform = transforms.Compose([
 #mse loss
 #AdamW
 #efficientnet?
-#
+#normalizing
 
 num_epochs = 10
 num_workers = 4
