@@ -78,9 +78,9 @@ model = DenseNet121()
 strategy = pl.strategies.DDPStrategy(static_graph = True)
 
 if args.checkpoint is not None:
-    trainer = pl.Trainer(accelerator="gpu", strategy=strategy, max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
+    trainer = pl.Trainer(accelerator="gpu", devices=2, strategy=strategy, max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
 else:
-    trainer = pl.Trainer(accelerator="gpu", strategy=strategy, max_epochs=num_epochs, callbacks=[checkpoint_callback])
+    trainer = pl.Trainer(accelerator="gpu", devices=2, strategy=strategy, max_epochs=num_epochs, callbacks=[checkpoint_callback])
 
 print('trainer world size: ', trainer.world_size)
 print('num nodes: ', trainer.num_nodes)
