@@ -1,14 +1,0 @@
-/home/apenn2/.local/lib/python3.9/site-packages/torch/utils/data/dataloader.py:558: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
-  warnings.warn(_create_warning_msg(
-/home/apenn2/.local/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
-  warnings.warn(
-/home/apenn2/.local/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=DenseNet121_Weights.IMAGENET1K_V1`. You can also use `weights=DenseNet121_Weights.DEFAULT` to get the most up-to-date weights.
-  warnings.warn(msg)
-Downloading: "https://download.pytorch.org/models/densenet121-a639ec97.pth" to /home/apenn2/.cache/torch/hub/checkpoints/densenet121-a639ec97.pth
-  0%|          | 0.00/30.8M [00:00<?, ?B/s] 36%|███▌      | 11.0M/30.8M [00:00<00:00, 115MB/s] 72%|███████▏  | 22.2M/30.8M [00:00<00:00, 116MB/s]100%|██████████| 30.8M/30.8M [00:00<00:00, 116MB/s]
-Traceback (most recent call last):
-  File "/central/home/apenn2/repo/CS156b/train_specific_pathology.py", line 68, in <module>
-    trainer = pl.Trainer(max_epochs=num_epochs, callbacks=[checkpoint_callback], resume_from_checkpoint=args.checkpoint)
-  File "/home/apenn2/.local/lib/python3.9/site-packages/pytorch_lightning/utilities/argparse.py", line 70, in insert_env_defaults
-    return fn(self, **kwargs)
-TypeError: __init__() got an unexpected keyword argument 'resume_from_checkpoint'
