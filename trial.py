@@ -358,7 +358,7 @@ def train_model():
         if epoch % TEST_PERIOD == 0 and epoch != 0:
     
             # test it the outputs on the test data
-            test_csv_path = "data/student_labels/test_ids.csv"
+            test_csv_path = "/groups/CS156b/data/student_labels/test_ids.csv"
             paths = []
             with open(test_csv_path, mode='r') as file:
                 csv_reader = csv.reader(file)
