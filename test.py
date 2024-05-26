@@ -33,8 +33,9 @@ transform = transforms.Compose([
 test_dataset = TestDataset(root_dir='data/train', transform=transform)
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
-checkpoint_path = 'checkpoints/' + 'CNN-epoch=09-val_loss=0.00.ckpt'
-model = CNNModel.load_from_checkpoint(checkpoint_path=checkpoint_path)
+checkpoint_path = ''
+checkpoint = torch.load(checkpoint_path)
+model.load_state_dict(checkpoint['model_state_dict'])
 model.eval()
 
 pids = []
