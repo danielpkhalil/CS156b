@@ -54,7 +54,7 @@ with torch.no_grad():
     for id, image in test_loader:
         image = image.cuda()
         output = model(image)
-        # raw score for each of the 9 labels
+        # raw score
         score = output.squeeze().tolist()  # remove batch dimension
         predictions.append(score)
         ids.append(id)
