@@ -1,15 +1,20 @@
-from models.CNN import CNNModel
-from test_dataset import TestDataset
-
 import os
-import csv
-import torch
+
+import torch.cuda
 from torch.utils.data import DataLoader
 from torchvision import transforms
-from torchvision.transforms import ToTensor, Resize, Compose, Lambda
+from torchvision.transforms import ToTensor, Resize, Lambda
+
+from torchvision import models
+from train_dataset import TrainDataset
 
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
+from torch.utils.data import random_split
+from models.DenseNet import DenseNet121
+from torchvision.transforms import ColorJitter
+from torchvision.transforms import RandomHorizontalFlip, RandomRotation
+import argparse
 
 transform = Compose([
     Resize((224, 224)),  # should add crop image later
