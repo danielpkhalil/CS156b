@@ -64,7 +64,7 @@ with torch.no_grad():
         # raw score
         score = output.squeeze().tolist()  # remove batch dimension
         predictions.append(score)
-        ids.append(id)
+        ids.append(id.item())
 
 # save sorted predictions in csv
 labels = ['No Finding', 'Enlarged Cardiomediastinum', 'Cardiomegaly', 'Lung Opacity', 'Pneumonia', 'Pleural Effusion',
