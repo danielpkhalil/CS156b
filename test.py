@@ -16,10 +16,18 @@ from torchvision.transforms import ColorJitter
 from torchvision.transforms import RandomHorizontalFlip, RandomRotation
 import argparse
 
-transform = Compose([
-    Resize((224, 224)),  # should add crop image later
+def to_rgb(image):
+    return image.convert('RGB')
+
+# Add the custom transformation to your transformations
+imagenet_mean = [0.485, 0.456, 0.406]
+imagenet_std = [0.229, 0.224, 0.225]
+
+transform = transforms.Compose([
+    Resize((224, 224)),
+    Lambda(to_rgb),
     ToTensor(),
-    Lambda(lambda x: x.float()),
+    transforms.Normalize(mean=imagenet_mean, std=imagenet_std),
 ])
 
 test_dataset = TestDataset(root_dir='data/train', transform=transform)
