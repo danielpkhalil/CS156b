@@ -23,6 +23,13 @@ def to_rgb(image):
 imagenet_mean = [0.485, 0.456, 0.406]
 imagenet_std = [0.229, 0.224, 0.225]
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--csv_path", type=str, required=True, help="Path to the test csv")
+parser.add_argument("--data_path", type=str, required=True, help="Path to the test data folder")
+parser.add_argument("--pathogen_idx", type=int, required=True, help="Index of the pathogen to be trained")
+parser.add_argument("--checkpoint", type=str, required=False, help="Model checkpoint name")
+args = parser.parse_args()
+
 transform = transforms.Compose([
     Resize((224, 224)),
     Lambda(to_rgb),
