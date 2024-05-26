@@ -1,5 +1,6 @@
 import os
 import csv
+import json
 
 import torch.cuda
 from torch.utils.data import DataLoader
@@ -62,8 +63,10 @@ with torch.no_grad():
 labels = ['No Finding', 'Enlarged Cardiomediastinum', 'Cardiomegaly', 'Lung Opacity', 'Pneumonia', 'Pleural Effusion',
           'Pleural Other', 'Fracture', 'Support Devices']
 
-with open(f'predictions{args.pathogen_idx}.csv', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(['Id'] + labels)
-    for id, prediction in sorted_predictions:
-        writer.writerow([id.item()] + prediction)
+# Create a dictionary mapping each id to its corresponding prediction
+predictions_dict = {id: prediction for id, prediction in zip(ids, predictions)}
+
+# Save the dictionary as a JSON file
+filename = f"predictions_{labels[args.pathogen_idx]}.json"
+with open(filename, 'w') as f:
+    json.dump(predictions_dict, f)
