@@ -41,6 +41,7 @@ test_dataset = TestDataset(csv_file=args.csv_path, root_dir=args.data_path, spec
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 checkpoint = torch.load(args.checkpoint)
+model = DenseNet121()
 model.load_state_dict(checkpoint['model_state_dict'])
 model.eval()
 
