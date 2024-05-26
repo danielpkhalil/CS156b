@@ -46,32 +46,25 @@ model = DenseNet121()
 model.load_state_dict(checkpoint['model_state_dict'])
 model.eval()
 
-pids = []
+ids = []
 predictions = []
 
 with torch.no_grad():
-    for pid, patient_images in test_loader:
-        patient_outputs = []
-        for image in patient_images:
-            image = image.cuda()
-            output = model(image)
-            # raw score for each of the 9 labels
-            scores = output.squeeze().tolist()  # remove batch dimension
-            patient_outputs.append(scores)
-
-        # average predictions for each patient
-        avg_prediction = [sum(x) / len(x) for x in zip(*patient_outputs)]
-
-        pids.append(pid)
-        predictions.append(avg_prediction)
+    for id, image in test_loader:
+        image = image.cuda()
+        output = model(image)
+        # raw score for each of the 9 labels
+        score = output.squeeze().tolist()  # remove batch dimension
+        predictions.append(score)
+        ids.append(id)
 
 # save sorted predictions in csv
 sorted_predictions = sorted(zip(pids, predictions))
 labels = ['No Finding', 'Enlarged Cardiomediastinum', 'Cardiomegaly', 'Lung Opacity', 'Pneumonia', 'Pleural Effusion',
           'Pleural Other', 'Fracture', 'Support Devices']
 
-with open('predictions.csv', 'w', newline='') as csvfile:
+with open(f'predictions{args.pathogen_idx}.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['Id'] + labels)
-    for pid, prediction in sorted_predictions:
-        writer.writerow([pid.item()] + prediction)
+    for id, prediction in sorted_predictions:
+        writer.writerow([id.item()] + prediction)
