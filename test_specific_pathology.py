@@ -44,16 +44,24 @@ test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 checkpoint = torch.load(args.checkpoint)
 model = DenseNet121()
+mode.to
 model.load_state_dict(checkpoint['state_dict'])
 model.eval()
+
+if torch.cuda.is_available():
+    # Move the model to CUDA
+    device = torch.device("cuda")
+    model = model.to(device)
+    print("Model moved to CUDA")
+else:
+    print("CUDA is not available")
 
 ids = []
 predictions = []
 
 with torch.no_grad():
     for id, image in test_loader:
-        image = image.cuda()
-        output = model(image)
+        output = model(image.to(device))
         # raw score
         score = output.squeeze().tolist()  # remove batch dimension
         predictions.append(score)
