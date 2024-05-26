@@ -37,7 +37,7 @@ transform = transforms.Compose([
     transforms.Normalize(mean=imagenet_mean, std=imagenet_std),
 ])
 
-test_dataset = TestDataset(root_dir='data/train', transform=transform)
+test_dataset = TestDataset(csv_file=args.csv_path, root_dir=args.data_path, specific_idx=args.pathogen_idx, transform=transform)
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 checkpoint_path = ''
