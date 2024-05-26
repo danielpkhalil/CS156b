@@ -40,8 +40,7 @@ transform = transforms.Compose([
 test_dataset = TestDataset(csv_file=args.csv_path, root_dir=args.data_path, specific_idx=args.pathogen_idx, transform=transform)
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
-checkpoint_path = ''
-checkpoint = torch.load(checkpoint_path)
+checkpoint = torch.load(args.checkpoint)
 model.load_state_dict(checkpoint['model_state_dict'])
 model.eval()
 
