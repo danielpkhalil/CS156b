@@ -23,20 +23,23 @@ class TrainDataset(Dataset):
         if balance:
             self.annotations = self.balance_dataset()
 
-    def balance_dataset(self):
-        # Separate majority and minority classes
-        df_majority = self.annotations[self.annotations.iloc[:, 1] == 1]
-        df_minority = self.annotations[self.annotations.iloc[:, 1] != 1]
-
-        # Downsample majority class
-        df_majority_downsampled = resample(df_majority, 
-                                            replace=False,    # sample without replacement
-                                            n_samples=len(df_minority),     # to match minority class
-                                            random_state=123) # reproducible results
-
-        # Combine minority class with downsampled majority class
-        df_downsampled = pd.concat([df_majority_downsampled, df_minority])
-
+    def balance_dataset(annotations):
+        # Separate classes
+        df_class_1 = annotations[annotations.iloc[:, 1] == 1]
+        df_class_0 = annotations[annotations.iloc[:, 1] == 0]
+        df_class_minus_1 = annotations[annotations.iloc[:, 1] == -1]
+    
+        # Find the number of samples in the smallest class
+        min_samples = min(len(df_class_1), len(df_class_0), len(df_class_minus_1))
+    
+        # Downsample each class to match the smallest class
+        df_class_1_downsampled = resample(df_class_1, replace=False, n_samples=min_samples, random_state=123)
+        df_class_0_downsampled = resample(df_class_0, replace=False, n_samples=min_samples, random_state=123)
+        df_class_minus_1_downsampled = resample(df_class_minus_1, replace=False, n_samples=min_samples, random_state=123)
+    
+        # Combine downsampled classes
+        df_downsampled = pd.concat([df_class_1_downsampled, df_class_0_downsampled, df_class_minus_1_downsampled])
+    
         return df_downsampled
 
     def __len__(self):
