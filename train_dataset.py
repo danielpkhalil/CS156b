@@ -8,7 +8,7 @@ import os
 from sklearn.utils import resample
 
 class TrainDataset(Dataset):
-    def __init__(self, csv_file, root_dir, specific_idx=None, transform=None, balance=False, smoothing=False):
+    def __init__(self, csv_file, root_dir, specific_idx=None, transform=None, balance=True, smoothing=False):
         self.annotations = pd.read_csv(csv_file)
         self.annotations = self.annotations[~self.annotations['Path'].str.contains('train/patient64540/study1/view1_frontal.jpg')]
         self.root_dir = root_dir
