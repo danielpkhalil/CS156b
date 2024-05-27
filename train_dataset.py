@@ -22,9 +22,9 @@ class TrainDataset(Dataset):
 
         # Balance the dataset if balance parameter is True
         if balance:
-            self.annotations = self.balance_dataset()
+            self.annotations = self.balance_dataset(self.annotations)
 
-    def balance_dataset(annotations):
+    def balance_dataset(self, annotations):
         # Separate classes
         df_class_1 = annotations[annotations.iloc[:, 1] == 1]
         df_class_0 = annotations[annotations.iloc[:, 1] == 0]
