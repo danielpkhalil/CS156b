@@ -67,15 +67,6 @@ with torch.no_grad():
         predictions.append(score)
         ids.append(id.item())
 
-        # Apply Grad-CAM and save the image every 100 samples
-        if i % 100 == 0:
-            cam = grad_cam(input_tensor=image, target_category=None)
-            visualization = show_cam_on_image(image.cpu().numpy(), cam.cpu().numpy())
-            # Save the visualization as an image
-            plt.imshow(visualization)
-            plt.axis('off')
-            plt.savefig(f"grad_cam_visualization_{args.pathogen_idx}_{i}.png")
-
 # save sorted predictions in csv
 labels = ['No Finding', 'Enlarged Cardiomediastinum', 'Cardiomegaly', 'Lung Opacity', 'Pneumonia', 'Pleural Effusion',
           'Pleural Other', 'Fracture', 'Support Devices']
