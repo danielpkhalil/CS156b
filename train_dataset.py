@@ -11,7 +11,7 @@ class TrainDataset(Dataset):
     def __init__(self, csv_file, root_dir, specific_idx=None, transform=None, balance=True, smoothing=False):
         self.annotations = pd.read_csv(csv_file)
         self.annotations = self.annotations[~self.annotations['Path'].str.contains('train/patient64540/study1/view1_frontal.jpg')]
-        self.annotations = self.annotations.fillna(0.0)
+        #self.annotations = self.annotations.fillna(0.0)
         self.root_dir = root_dir
         self.specific_idx = specific_idx
         self.transform = transform
