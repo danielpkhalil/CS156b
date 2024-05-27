@@ -8,12 +8,13 @@ import os
 from sklearn.utils import resample
 
 class TrainDataset(Dataset):
-    def __init__(self, csv_file, root_dir, specific_idx=None, transform=None, balance=False):
+    def __init__(self, csv_file, root_dir, specific_idx=None, transform=None, balance=False, smoothing=False):
         self.annotations = pd.read_csv(csv_file)
         self.annotations = self.annotations[~self.annotations['Path'].str.contains('train/patient64540/study1/view1_frontal.jpg')]
         self.root_dir = root_dir
         self.specific_idx = specific_idx
         self.transform = transform
+        self.smoothing = smoothing
 
         # Reduce the annotations to just the label that corresponds to the specific idx
         if self.specific_idx is not None:
@@ -42,6 +43,15 @@ class TrainDataset(Dataset):
     
         return df_downsampled
 
+    def smooth_labels(self, y, factor=0.1):
+        # if the label smoothing factor is zero, return the original labels
+        if factor == 0:
+            return y
+
+        # if the label smoothing factor is not zero, smooth the labels
+        y_smooth = y * (1 - factor) + (1 - y) * factor
+        return y_smooth
+
     def __len__(self):
         return len(self.annotations)
 
@@ -64,5 +74,7 @@ class TrainDataset(Dataset):
 
         if self.transform:
             image = self.transform(image)
+        if self.smoothing:
+            y_label = self.smooth_labels(y_label)
 
         return (image, y_label)
