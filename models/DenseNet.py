@@ -22,7 +22,12 @@ class DenseNet121(pl.LightningModule):
 
         # Replace the classifier layer to match the number of classes in your dataset
         num_ftrs = self.base_model.classifier.in_features
-        self.base_model.classifier = torch.nn.Linear(num_ftrs, 1)  # Assuming binary classification
+        self.base_model.classifier = nn.Sequential(
+            nn.Linear(num_ftrs, 512),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            nn.Linear(512, 1)  # Assuming binary classification
+        )
 
         # Define your loss function here
         self.criterion = torch.nn.MSELoss()
