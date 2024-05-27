@@ -38,6 +38,7 @@ transform = transforms.Compose([
     Resize((224, 224)),
     RandomHorizontalFlip(),
     RandomRotation(10),
+    RandomAffine(degrees=0, translate=(0.1, 0.1), scale=(0.9, 1.1)),  # Translation and Zoom
     Lambda(to_rgb),
     ToTensor(),
     transforms.Normalize(mean=imagenet_mean, std=imagenet_std),
