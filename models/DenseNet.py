@@ -69,7 +69,7 @@ class DenseNet121(pl.LightningModule):
 
     def configure_optimizers(self):
         # Define your optimizer
-        optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)  # Change learning rate here
+        optimizer = torch.optim.AdamW(self.parameters(), lr=0.005)  # Change learning rate here
         return optimizer
 
     # def on_train_end(self):
