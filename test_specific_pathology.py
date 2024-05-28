@@ -14,6 +14,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.utils.data import random_split
 from models.DenseNet import DenseNet121
+from models.EfficientNet import EfficientNetModel
 from torchvision.transforms import ColorJitter
 from torchvision.transforms import RandomHorizontalFlip, RandomRotation
 import matplotlib.pyplot as plt
@@ -44,7 +45,7 @@ test_dataset = TestDataset(csv_file=args.csv_path, root_dir=args.data_path, tran
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 checkpoint = torch.load(args.checkpoint)
-model = DenseNet121()
+model = EfficientNetModel()
 model.load_state_dict(checkpoint['state_dict'])
 model.eval()
 
