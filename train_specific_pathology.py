@@ -35,7 +35,7 @@ imagenet_mean = [0.485, 0.456, 0.406]
 imagenet_std = [0.229, 0.224, 0.225]
 
 transform = transforms.Compose([
-    Resize((224, 224)),
+    Resize((400, 400)),
     RandomHorizontalFlip(),
     RandomRotation(10),
     RandomAffine(degrees=0, translate=(0.1, 0.1), scale=(0.9, 1.1)),  # Translation and Zoom
