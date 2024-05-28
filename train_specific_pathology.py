@@ -12,7 +12,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.utils.data import random_split
 from models.DenseNet import DenseNet121
-from models.EfficientNet import EfficientNet
+from models.EfficientNetModel import EfficientNet
 from torchvision.transforms import ColorJitter
 from torchvision.transforms import RandomHorizontalFlip, RandomRotation, RandomAffine
 import argparse
@@ -78,7 +78,7 @@ checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir,
                                       save_last=True)
 
 # Load a pretrained DenseNet121 model
-model = EfficientNet()
+model = EfficientNetModel()
 
 strategy = pl.strategies.DDPStrategy(static_graph = True)
 
