@@ -12,6 +12,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.utils.data import random_split
 from models.DenseNet import DenseNet121
+from models.EfficientNet import EfficientNet
 from torchvision.transforms import ColorJitter
 from torchvision.transforms import RandomHorizontalFlip, RandomRotation, RandomAffine
 import argparse
