@@ -78,7 +78,7 @@ checkpoint_callback = ModelCheckpoint(dirpath=checkpoint_dir,
                                       save_last=True)
 
 # Load a pretrained DenseNet121 model
-model = DenseNet121()
+model = EfficientNet()
 
 strategy = pl.strategies.DDPStrategy(static_graph = True)
 
