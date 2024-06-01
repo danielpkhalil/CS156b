@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('../central/groups/CS156b/data/student_labels/train2023.csv')
+df = pd.read_csv('/groups/CS156b/data/student_labels/train2023.csv')
 
 filtered_df = df.iloc[:, 7:16] 
 
