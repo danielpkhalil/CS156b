@@ -19,7 +19,7 @@ class DenseNet201(pl.LightningModule):
     def __init__(self):
         super(DenseNet201, self).__init__()
         # Load a pretrained DenseNet121 model
-        self.base_model = models.densenet121(pretrained=True)
+        self.base_model = models.densenet201(pretrained=True)
 
         # Replace the classifier layer to match the number of classes in your dataset
         num_ftrs = self.base_model.classifier.in_features
@@ -45,6 +45,12 @@ class DenseNet201(pl.LightningModule):
         inputs, targets = batch
         outputs = self(inputs)
         targets = targets.unsqueeze(1)
+
+        mask = torch.isnan(targets)
+        # Apply mask to predicted and target labels
+        outputs = outputs[~mask]
+        targets = targets[~mask]
+        
         loss = self.criterion(outputs, targets)
         self.train_outputs.append(loss)
         return loss
@@ -53,6 +59,12 @@ class DenseNet201(pl.LightningModule):
         inputs, targets = batch
         outputs = self(inputs)
         targets = targets.unsqueeze(1)
+        
+        mask = torch.isnan(targets)
+        # Apply mask to predicted and target labels
+        outputs = outputs[~mask]
+        targets = targets[~mask]
+    
         loss = self.criterion(outputs, targets)
         self.val_outputs.append(loss)
         self.log('val_loss', loss)
