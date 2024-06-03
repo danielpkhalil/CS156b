@@ -8,7 +8,7 @@ import os
 from sklearn.utils import resample
 
 class TrainDataset(Dataset):
-    def __init__(self, csv_file, root_dir, specific_idx=None, transform=None, balance=True, smoothing=False):
+    def __init__(self, csv_file, root_dir, specific_idx=None, transform=None, balance=False, smoothing=False):
         self.annotations = pd.read_csv(csv_file)
         self.annotations = self.annotations[~self.annotations['Path'].str.contains('train/patient64540/study1/view1_frontal.jpg')]
         #self.annotations = self.annotations.fillna(0.0)
@@ -20,6 +20,8 @@ class TrainDataset(Dataset):
         # Reduce the annotations to just the label that corresponds to the specific idx
         if self.specific_idx is not None:
             self.annotations = self.annotations[['Path', self.annotations.columns[7 + self.specific_idx]]]
+        else:
+            self.annotations = self.annotations[['Path', 'No Finding', 'Enlarged Cardiomediastinum', 'Cardiomegaly', 'Lung Opacity', 'Pneumonia', 'Pleural Effusion', 'Pleural Other', 'Fracture', 'Support Devices']]
 
         # Balance the dataset if balance parameter is True
         if balance:
@@ -70,7 +72,7 @@ class TrainDataset(Dataset):
             return None, None
 
         image = Image.open(img_path)
-        y_label = torch.tensor(self.annotations.iloc[index, 1])
+        y_label = torch.tensor(self.annotations.iloc[index, 1:])
         y_label = y_label.float()
 
         if self.transform:
