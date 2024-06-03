@@ -44,7 +44,7 @@ class DenseNet201(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         inputs, targets = batch
         outputs = self(inputs)
-        targets = targets.unsqueeze(1)
+        #targets = targets.unsqueeze(1)
 
         mask = torch.isnan(targets)
         # Apply mask to predicted and target labels
